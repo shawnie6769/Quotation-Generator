@@ -82,7 +82,11 @@ export function initializePdfExport({ downloadBtn, statusMsg, sheet }) {
     const textarea = terms.querySelector('textarea');
     const termsText = document.createElement('div');
     termsText.className = 'terms-print-value';
-    termsText.textContent = sourceTerms.querySelector('textarea').value;
+    sourceTerms.querySelector('textarea').value.split(/\r?\n/).forEach((line) => {
+      const lineElement = document.createElement('div');
+      lineElement.textContent = line;
+      termsText.appendChild(lineElement);
+    });
     textarea.replaceWith(termsText);
     const totals = cloneWithCurrentValues(sheet.querySelector('.totals'));
     const signature = cloneWithCurrentValues(sheet.querySelector('.signature'));
