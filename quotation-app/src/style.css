@@ -168,9 +168,15 @@ textarea#terms:focus{border-color:var(--clay);}
   .table-actions{margin-bottom:20px;}
   .add-row-btn{min-height:42px;padding:9px 12px;}
   .totals{margin-bottom:22px;}
-  .totals-box{width:100%;max-width:280px;}
+  .totals-box{width:100%;max-width:none;margin:0;}
+  .totals-line{min-height:40px;padding:9px 0;font-size:14px;line-height:1.35;}
+  .totals-line.grand{font-size:16px;padding-top:12px;}
   input[type=text], input[type=email], input[type=date], input[type=number], textarea{font-size:16px;}
-  .terms{margin-bottom:26px;}
+  .terms{margin-bottom:0;}
+  textarea#terms{min-height:150px;line-height:1.7;padding:12px;font-size:16px;}
+  .signature{margin-top:32px;padding-top:4px;}
+  .signature .name{font-size:16px;line-height:1.4;}
+  .signature .title{font-size:14px;line-height:1.5;margin-top:2px;}
 }
 @media (max-width:380px){
   .toolbar .brand .tag{display:none;}
