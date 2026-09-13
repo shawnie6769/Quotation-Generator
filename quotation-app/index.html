@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoneric — Quotation Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="toolbar">
+    <div class="brand">
+      Stoneric <span class="tag">Quotation Generator</span>
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost" id="resetBtn">Start new quotation</button>
+      <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="sheet-wrap">
+      <p class="hint">Fill in the client details and items below. Everything updates automatically — click <strong>Download PDF</strong> when you're done.</p>
+
+      <div class="sheet" id="sheet">
+        <div class="letterhead">
+          <img src="/logo.jpg" alt="Stoneric letterhead">
+        </div>
+
+        <div class="sheet-body">
+          <div class="meta-row">
+            <div class="client-fields">
+              <label>Company Name:</label>
+              <input type="text" id="clientName" placeholder="Client's company name">
+              <label>Address:</label>
+              <input type="text" id="clientAddress" placeholder="Client's address">
+              <label>Attention to:</label>
+              <input type="text" id="clientAttn" placeholder="Contact person">
+              <label>Email:</label>
+              <input type="email" id="clientEmail" placeholder="client@email.com">
+            </div>
+            <div class="date-field">
+              <label>Date:</label>
+              <input type="date" id="quoteDate">
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width:52px;">No.</th>
+                <th>Description</th>
+                <th class="center" style="width:70px;">Qty</th>
+                <th style="width:70px;">Unit</th>
+                <th class="num" style="width:100px;">Unit Price</th>
+                <th id="optionalColumns"></th>
+                <th class="num" style="width:130px;">Total</th>
+                <th class="row-actions-header" style="width:34px;"></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+
+          <div class="table-actions">
+            <button class="add-row-btn" id="addRowBtn">+ Add item</button>
+            <button class="add-row-btn" id="addColumnBtn">+ Add column</button>
+          </div>
+
+          <div class="totals">
+            <div class="totals-box">
+              <div class="totals-line sub"><span>Sub Total</span><span id="subTotal">₱0.00</span></div>
+              <div class="totals-line vat"><span>VAT <input type="number" id="vatRate" min="0" step="0.01" value="12" aria-label="VAT percentage"> %</span><span id="vatTotal">₱0.00</span></div>
+              <div class="totals-line grand"><span>Grand Total</span><span id="grandTotal">₱0.00</span></div>
+            </div>
+          </div>
+
+          <div class="terms">
+            <label>Terms &amp; Conditions</label>
+            <textarea id="terms">1. This quotation is valid for 30 days from the date above.
+2. 50% down payment is required before work commences.
+3. Prices are subject to change without prior notice after validity period.</textarea>
+          </div>
+
+          <div class="signature">
+            <div class="name">Eric F. Abadilla</div>
+            <div class="title">Contractor</div>
+          </div>
+        </div>
+      </div>
+      <div class="status-msg" id="statusMsg"></div>
+    </div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
