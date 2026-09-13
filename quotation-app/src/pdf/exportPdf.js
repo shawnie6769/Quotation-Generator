@@ -89,6 +89,23 @@ export function initializePdfExport({ downloadBtn, statusMsg, sheet }) {
     return createSection(createBody(totals, terms, signature));
   }
 
+  function createFullSection(rows) {
+    const header = createHeaderSection();
+    const items = createItemsSection(rows);
+    const footer = createFooterSection();
+    const content = document.createElement('div');
+    const body = createBody(
+      header.querySelector('.meta-row'),
+      items.querySelector('table'),
+      footer.querySelector('.totals'),
+      footer.querySelector('.terms'),
+      footer.querySelector('.signature')
+    );
+    content.appendChild(header.querySelector('.letterhead'));
+    content.appendChild(body);
+    return createSection(content);
+  }
+
   async function renderSection(section) {
     document.body.appendChild(section);
     await Promise.all([...section.querySelectorAll('img')].map((image) => {
@@ -158,6 +175,20 @@ export function initializePdfExport({ downloadBtn, statusMsg, sheet }) {
       const headerCanvas = await renderSection(createHeaderSection());
       const footerCanvas = await renderSection(createFooterSection());
       const rows = [...sheet.querySelectorAll('#itemsBody tr')];
+      const fullSection = createFullSection(rows);
+      const fullSize = measureSection(fullSection);
+      const fullHeight = (fullSize.height * pageWidth) / fullSize.width;
+
+      if (fullHeight <= pageHeight) {
+        addCanvasToPdf(pdf, await renderSection(fullSection), 0, pageWidth, pageHeight);
+        const clientName = document.getElementById('clientName').value.trim() || 'Untitled';
+        const date = document.getElementById('quoteDate').value || todayISO();
+        const safeName = clientName.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '');
+        pdf.save(`Quotation-${safeName}-${date}.pdf`);
+        statusMsg.textContent = 'PDF downloaded.';
+        return;
+      }
+
       let cursorY = addCanvasToPdf(pdf, headerCanvas, 0, pageWidth, pageHeight);
       let rowIndex = 0;
 
