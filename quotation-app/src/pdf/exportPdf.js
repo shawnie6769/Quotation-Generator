@@ -98,12 +98,18 @@ export function initializePdfExport({ downloadBtn, statusMsg, sheet }) {
     const items = createItemsSection(rows);
     const footer = createFooterSection();
     const content = document.createElement('div');
-    const body = createBody(
-      header.querySelector('.meta-row'),
-      items.querySelector('table'),
+    content.className = 'pdf-page-content';
+    const footerContent = document.createElement('div');
+    footerContent.className = 'pdf-footer';
+    footerContent.append(
       footer.querySelector('.totals'),
       footer.querySelector('.terms'),
       footer.querySelector('.signature')
+    );
+    const body = createBody(
+      header.querySelector('.meta-row'),
+      items.querySelector('table'),
+      footerContent
     );
     content.appendChild(header.querySelector('.letterhead'));
     content.appendChild(body);
@@ -184,6 +190,7 @@ export function initializePdfExport({ downloadBtn, statusMsg, sheet }) {
       const fullHeight = (fullSize.height * pageWidth) / fullSize.width;
 
       if (fullHeight <= pageHeight) {
+        fullSection.classList.add('pdf-full-page');
         addCanvasToPdf(pdf, await renderSection(fullSection), 0, pageWidth, pageHeight);
         const clientName = document.getElementById('clientName').value.trim() || 'Untitled';
         const date = document.getElementById('quoteDate').value || todayISO();

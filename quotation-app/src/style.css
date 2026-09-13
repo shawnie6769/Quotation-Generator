@@ -144,11 +144,15 @@ textarea#terms:focus{border-color:var(--clay);}
 .sheet.printing input::placeholder, .sheet.printing textarea::placeholder{color:transparent;}
 .pdf-staging{position:fixed;left:-100000px;top:0;width:820px;z-index:-1;}
 .pdf-section{width:820px;box-shadow:none;border-radius:0;overflow:visible;}
+.pdf-full-page{height:1158px;display:flex;flex-direction:column;}
+.pdf-full-page .pdf-page-content{display:flex;flex:1;flex-direction:column;}
+.pdf-full-page .sheet-body{display:flex;flex:1;flex-direction:column;min-height:0;}
+.pdf-full-page .pdf-footer{margin-top:auto;}
 .pdf-section .sheet-body{padding:28px 36px 36px;}
 .pdf-field-value{display:block;min-width:0;width:100%;padding:4px 2px;font-family:'Inter',sans-serif;color:var(--ink);font-size:14px;line-height:1.35;white-space:normal;overflow-wrap:anywhere;}
 .pdf-section .date-field .pdf-field-value{width:auto;white-space:nowrap;}
-.pdf-section .terms-print-value{white-space:normal;text-align:left !important;word-spacing:normal;letter-spacing:normal;line-height:1.5;border:1px solid var(--line);border-radius:4px;padding:10px;font-size:14px;min-height:90px;}
-.pdf-section .terms-print-value > div{text-align:left !important;white-space:normal;word-spacing:normal;letter-spacing:normal;}
+.pdf-section .terms-print-value{display:block !important;white-space:normal;text-align:left !important;word-spacing:normal;letter-spacing:normal;line-height:1.5;border:1px solid var(--line);border-radius:4px;padding:10px;font-size:14px;min-height:90px;}
+.pdf-section .terms-print-value > div{display:block;text-align:left !important;white-space:normal;word-spacing:normal;letter-spacing:normal;}
 @media (max-width:600px){
   main{padding:20px 8px 56px;}
   .hint{margin-right:4px;margin-left:4px;line-height:1.45;}
