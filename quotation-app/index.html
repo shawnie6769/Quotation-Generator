@@ -114,6 +114,19 @@
   </main>
   </div>
 
+  <div class="tutorial" id="tutorial" hidden aria-live="polite">
+    <div class="tutorial-spotlight" id="tutorialSpotlight"></div>
+    <div class="tutorial-card" id="tutorialCard" role="dialog" aria-modal="false" aria-labelledby="tutorialTitle">
+      <div class="tutorial-progress"><span id="tutorialStepCount"></span><button class="tutorial-close" id="tutorialSkipBtn" type="button">Skip tutorial</button></div>
+      <h2 id="tutorialTitle"></h2>
+      <p id="tutorialText"></p>
+      <div class="tutorial-actions">
+        <button class="btn btn-quiet" id="tutorialBackBtn" type="button">Back</button>
+        <button class="btn btn-primary" id="tutorialNextBtn" type="button">Next</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

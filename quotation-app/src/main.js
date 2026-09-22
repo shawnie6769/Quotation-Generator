@@ -3,6 +3,7 @@ import { initializeItemsTable } from './components/itemsTable.js';
 import { initializeClientForm, resetClientForm } from './components/clientForm.js';
 import { recalculateTotals } from './components/totals.js';
 import { initializePdfExport } from './pdf/exportPdf.js';
+import { initializeTutorial } from './tutorial.js';
 import {
   clearDraft,
   createQuotationFile,
@@ -136,3 +137,6 @@ document.getElementById('editor').addEventListener('input', persistDraft);
 document.getElementById('editor').addEventListener('change', persistDraft);
 
 if (loadDraft()) document.getElementById('resumeQuotationBtn').hidden = false;
+
+const tutorial = initializeTutorial({ startNewQuotation });
+setTimeout(() => tutorial.start(), 250);

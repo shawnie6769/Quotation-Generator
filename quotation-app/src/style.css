@@ -18,6 +18,18 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 [hidden]{display:none !important;}
+.tutorial-active{overflow:hidden;}
+.tutorial{position:fixed;inset:0;z-index:100;pointer-events:none;}
+.tutorial-spotlight{position:fixed;border:2px solid var(--clay);border-radius:8px;box-shadow:0 0 0 9999px rgba(11,42,63,.58),0 0 0 5px rgba(190,114,72,.18);pointer-events:none;transition:top .2s ease,left .2s ease,width .2s ease,height .2s ease;}
+.tutorial-card{position:fixed;z-index:101;pointer-events:auto;padding:18px 18px 16px;background:var(--white);border:1px solid #E4D6CB;border-top:4px solid var(--clay);border-radius:7px;box-shadow:0 12px 34px rgba(11,42,63,.22);color:var(--ink);transition:top .2s ease,left .2s ease;}
+.tutorial-progress{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--slate);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.tutorial-close{padding:0;border:0;background:none;color:var(--slate);font:600 11px 'Inter',sans-serif;cursor:pointer;text-transform:uppercase;}
+.tutorial-close:hover{color:var(--clay-dark);text-decoration:underline;}
+.tutorial-card h2{margin:12px 0 7px;color:var(--navy);font-size:24px;line-height:1;}
+.tutorial-card p{margin:0;color:var(--slate);font-size:13px;line-height:1.5;}
+.tutorial-actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px;}
+.tutorial-actions .btn{padding:8px 13px;font-size:13px;}
+.tutorial-actions .btn-quiet{padding:8px 0;}
 .landing{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--navy);}
 .landing-panel{width:min(100%,560px);padding:clamp(34px,8vw,74px);background:var(--white);border-top:8px solid var(--clay);box-shadow:0 20px 60px rgba(0,0,0,.18);}
 .landing-kicker{margin:0 0 12px;color:var(--clay-dark);font-size:12px;font-weight:700;letter-spacing:.18em;}
@@ -176,6 +188,7 @@ textarea#terms:focus{border-color:var(--clay);}
   .landing-panel{padding:34px 24px 30px;}
   .landing-actions{display:grid;}
   .landing-actions .btn{width:100%;min-height:44px;}
+  .tutorial-card{padding:16px;}
   main{padding:20px 8px 56px;}
   .hint{margin-right:4px;margin-left:4px;line-height:1.45;}
   .toolbar{padding:12px 12px;}
