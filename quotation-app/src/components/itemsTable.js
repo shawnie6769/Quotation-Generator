@@ -21,10 +21,10 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
     </select><input type="text" class="other-unit-input" placeholder="Unit" aria-label="Other unit">`;
   }
 
-  function addRow(description, quantity, price) {
+  function addRow(description, quantity, price, data = {}) {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td class="item-no"><input type="text" class="item-no-input" value="" aria-label="Item number"></td>
+      <td class="item-no"><input type="text" class="item-no-input" value="${data.itemNo || ''}" aria-label="Item number"></td>
       <td class="description-cell"><textarea class="desc-input" rows="1" placeholder="Item description">${description || ''}</textarea></td>
       <td class="qty"><input type="number" class="qty-input" min="0" step="1" value="${quantity ?? ''}"></td>
       <td class="unit">${unitField()}</td>
@@ -34,6 +34,19 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       <td class="row-actions"><button class="remove-row" title="Remove item">✕</button></td>
     `;
     itemsBody.appendChild(row);
+    row.querySelector('.unit-input').value = data.unit || 'none';
+    row.querySelector('.other-unit-input').value = data.otherUnit || '';
+    row.querySelector('.other-unit-input').classList.toggle('visible', data.unit === 'other');
+    row.querySelectorAll('.optional-cell input').forEach((field) => {
+      field.value = data.optionalValues?.[field.dataset.columnId] || '';
+    });
+    if (data.excludeFromTotal) {
+      row.classList.add('exclude-from-total');
+      const toggle = row.querySelector('.toggle-row-total');
+      toggle.setAttribute('aria-pressed', 'true');
+      toggle.setAttribute('aria-label', 'Include item in quotation total');
+      toggle.title = 'Include item in quotation total';
+    }
     resizeDescription(row.querySelector('.desc-input'));
     onChange();
   }
@@ -43,13 +56,14 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
     field.style.height = `${field.scrollHeight}px`;
   }
 
-  function addColumn() {
+  function addColumn(name = 'New column') {
     if (document.querySelectorAll('.optional-column').length >= 2) return;
     const id = `column-${++columnId}`;
     const header = document.createElement('th');
     header.className = 'optional-column';
     header.dataset.columnId = id;
     header.innerHTML = '<input class="column-name" type="text" value="New column" aria-label="Optional column label"><button class="remove-column" title="Remove column">✕</button>';
+    header.querySelector('.column-name').value = name;
     optionalColumns.before(header);
     itemsBody.querySelectorAll('tr').forEach((row) => {
       const cell = document.createElement('td');
@@ -58,6 +72,7 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       row.insertBefore(cell, row.querySelector('.total'));
     });
     updateColumnButton();
+    return id;
   }
 
   function removeColumn(header) {

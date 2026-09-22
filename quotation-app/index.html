@@ -9,17 +9,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <section class="landing" id="landing">
+    <div class="landing-panel">
+      <p class="landing-kicker">STONERIC</p>
+      <h1>Quotation Generator</h1>
+      <p class="landing-copy">Create a new quotation or continue with one you have already started.</p>
+      <div class="landing-actions">
+        <button class="btn btn-primary" id="startQuotationBtn">Start new quotation</button>
+        <button class="btn btn-ghost landing-open-btn" id="openQuotationBtn">Open quotation file</button>
+        <button class="btn btn-quiet" id="resumeQuotationBtn" hidden>Resume previous quotation</button>
+      </div>
+      <input type="file" id="quotationFileInput" accept=".json,application/json" hidden>
+      <p class="landing-status" id="landingStatus" role="status"></p>
+    </div>
+  </section>
+
+  <div class="app-shell" id="appShell" hidden>
   <div class="toolbar">
     <div class="brand">
       Stoneric <span class="tag">Quotation Generator</span>
     </div>
     <div class="actions">
+      <button class="btn btn-ghost" id="homeBtn">Home</button>
+      <button class="btn btn-ghost" id="toolbarOpenQuotationBtn">Open file</button>
       <button class="btn btn-ghost" id="resetBtn">Start new quotation</button>
+      <button class="btn btn-ghost" id="saveQuotationBtn">Save file</button>
       <button class="btn btn-primary" id="downloadBtn">Download PDF</button>
     </div>
   </div>
 
-  <main>
+  <main id="editor">
     <div class="sheet-wrap">
       <p class="hint">Fill in the client details and items below. Everything updates automatically — click <strong>Download PDF</strong> when you're done.</p>
 
@@ -93,6 +112,7 @@
       <div class="status-msg" id="statusMsg"></div>
     </div>
   </main>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
