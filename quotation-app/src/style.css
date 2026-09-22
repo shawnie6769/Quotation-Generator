@@ -97,6 +97,12 @@ td.qty{width:70px;}
 td.unit{width:70px;}
 td.price{width:100px;}
 td.total{width:130px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;}
+.row-total-wrap{display:flex;align-items:center;justify-content:flex-end;gap:5px;min-height:29px;}
+.toggle-row-total{width:20px;height:20px;padding:0;border:1px solid transparent;border-radius:4px;background:transparent;color:var(--slate);font:600 15px/18px 'Inter',sans-serif;cursor:pointer;opacity:0;transition:opacity .15s ease, color .15s ease, background .15s ease;}
+tr:hover .toggle-row-total, .toggle-row-total:focus-visible, tr.exclude-from-total .toggle-row-total{opacity:1;}
+.toggle-row-total:hover, .toggle-row-total:focus-visible{color:var(--clay-dark);background:#F8EEE9;border-color:#E7CFC2;outline:none;}
+tr.exclude-from-total .row-total{color:var(--slate);text-decoration:line-through;text-decoration-color:#C9C2B4;}
+.sheet.printing .toggle-row-total{display:none;}
 td.row-actions{width:34px;text-align:center;}
 th.row-actions-header{width:34px;}
 input.qty-input, input.price-input{text-align:right;}
@@ -171,6 +177,7 @@ textarea#terms:focus{border-color:var(--clay);}
   .table-scroll{margin-right:-16px;padding-right:16px;}
   .table-actions{margin-bottom:20px;}
   .add-row-btn{min-height:42px;padding:9px 12px;}
+  .toggle-row-total{opacity:1;}
   .totals{margin-bottom:22px;}
   .totals-box{width:100%;max-width:none;margin:0;}
   .totals-line{min-height:40px;padding:9px 0;font-size:14px;line-height:1.35;}

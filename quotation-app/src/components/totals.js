@@ -10,8 +10,9 @@ export function recalculateTotals(itemsBody) {
     const quantity = parseFloat(row.querySelector('.qty-input').value) || 0;
     const price = parseFloat(row.querySelector('.price-input').value) || 0;
     const total = quantity * price;
-    row.querySelector('.row-total').textContent = (quantity && price) ? peso(total) : '';
-    subTotal += total;
+    const included = !row.classList.contains('exclude-from-total');
+    row.querySelector('.row-total').textContent = included && quantity && price ? peso(total) : '';
+    if (included) subTotal += total;
   });
 
   const vatRate = parseFloat(document.getElementById('vatRate').value) || 0;

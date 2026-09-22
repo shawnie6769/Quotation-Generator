@@ -30,7 +30,7 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       <td class="unit">${unitField()}</td>
       <td class="price"><input type="number" class="price-input" min="0" step="0.01" value="${price ?? ''}"></td>
       ${[...document.querySelectorAll('.optional-column')].map((column) => `<td class="optional-cell"><input type="text" data-column-id="${column.dataset.columnId}" aria-label="${column.querySelector('.column-name').value || 'Optional column'}"></td>`).join('')}
-      <td class="total"><span class="row-total">₱0.00</span></td>
+      <td class="total"><div class="row-total-wrap"><span class="row-total">₱0.00</span><button type="button" class="toggle-row-total" aria-label="Exclude item from quotation total" aria-pressed="false" title="Exclude item from quotation total">-</button></div></td>
       <td class="row-actions"><button class="remove-row" title="Remove item">✕</button></td>
     `;
     itemsBody.appendChild(row);
@@ -80,6 +80,14 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
   itemsBody.addEventListener('click', (event) => {
     if (event.target.classList.contains('remove-row')) {
       event.target.closest('tr').remove();
+      onChange();
+    }
+    if (event.target.classList.contains('toggle-row-total')) {
+      const row = event.target.closest('tr');
+      const excluded = row.classList.toggle('exclude-from-total');
+      event.target.setAttribute('aria-pressed', String(excluded));
+      event.target.setAttribute('aria-label', excluded ? 'Include item in quotation total' : 'Exclude item from quotation total');
+      event.target.title = excluded ? 'Include item in quotation total' : 'Exclude item from quotation total';
       onChange();
     }
   });
