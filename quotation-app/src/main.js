@@ -22,6 +22,13 @@ const landingStatus = document.getElementById('landingStatus');
 const quotationFileInput = document.getElementById('quotationFileInput');
 let editorReady = false;
 
+function normalizeHumanText(value) {
+  return value.trim().replace(/\s+/g, ' ').split(' ').map((word) => {
+    if (word.length > 1 && word === word.toUpperCase()) return word;
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }).join(' ');
+}
+
 function persistDraft() {
   if (editorReady) saveDraft(createQuotationFile(itemsBody));
 }
@@ -135,6 +142,15 @@ document.querySelectorAll('#editor input, #editor textarea, #editor select').for
 });
 document.getElementById('editor').addEventListener('input', persistDraft);
 document.getElementById('editor').addEventListener('change', persistDraft);
+document.getElementById('editor').addEventListener('blur', (event) => {
+  const isHumanText = event.target.matches('#clientName, #clientAddress, #clientAttn, .desc-input');
+  if (!isHumanText || !event.target.value.trim()) return;
+  const normalized = normalizeHumanText(event.target.value);
+  if (event.target.value !== normalized) {
+    event.target.value = normalized;
+    event.target.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+}, true);
 
 if (loadDraft()) document.getElementById('resumeQuotationBtn').hidden = false;
 

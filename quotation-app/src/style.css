@@ -136,8 +136,9 @@ input.price-input{min-width:82px;}
 .pdf-unit-value{display:block;min-height:29px;line-height:1.35;padding:4px 0;}
 .item-no-input{width:42px;text-align:center;}
 .unit-input{width:100%;min-width:0;font:inherit;color:var(--ink);border:1px solid transparent;background:transparent;padding:4px 0;}
+.unit-input.hidden{display:none;}
 .other-unit-input{display:none;margin-top:3px;}
-.other-unit-input.visible{display:block;}
+.other-unit-input.visible{display:block;margin-top:0;}
 .optional-column{width:70px;min-width:70px;position:relative;padding:9px 22px 9px 8px;}
 #optionalColumns{display:none;}
 .column-name{display:block;width:48px;height:14px;font-family:'Inter',sans-serif !important;font-size:11px !important;font-weight:600 !important;line-height:14px !important;letter-spacing:0.04em;color:var(--white) !important;border:none !important;background:transparent;text-transform:uppercase;padding:0;text-align:left;vertical-align:middle;}
@@ -150,7 +151,10 @@ input.price-input{min-width:82px;}
 .header-add-column:hover{text-decoration:underline;}
 .remove-row{background:none;border:none;color:var(--slate);cursor:pointer;font-size:16px;line-height:1;padding:2px 6px;border-radius:4px;}
 .remove-row:hover{color:var(--danger);background:#F6E9E7;}
-.table-actions{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 22px;}
+.table-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 22px;}
+.add-items-control{display:flex;align-items:center;gap:6px;color:var(--slate);font-size:13px;font-weight:600;}
+#rowCount{width:54px;text-align:center;padding:8px 4px;border:1px solid #C9C2B4;border-radius:5px;background:var(--white);font-size:13px;}
+#rowCount:focus{border-color:var(--clay);}
 .add-row-btn{margin:0;background:none;border:1px dashed #C9C2B4;color:var(--slate);padding:8px 12px;font-size:13px;font-weight:600;border-radius:5px;cursor:pointer;}
 .add-row-btn:hover{border-color:var(--clay);color:var(--clay-dark);}
 .totals{display:flex;justify-content:flex-end;margin-bottom:26px;}
@@ -206,6 +210,8 @@ textarea#terms:focus{border-color:var(--clay);}
   .table-scroll{margin-right:-16px;padding-right:16px;}
   .table-actions{margin-bottom:20px;}
   .add-row-btn{min-height:42px;padding:9px 12px;}
+  .add-items-control{min-height:42px;}
+  #rowCount{min-height:42px;font-size:16px;}
   .toggle-row-total{opacity:1;}
   .totals{margin-bottom:22px;}
   .totals-box{width:100%;max-width:none;margin:0;}

@@ -84,7 +84,11 @@
           </div>
 
           <div class="table-actions">
-            <button class="add-row-btn" id="addRowBtn">+ Add item</button>
+            <div class="add-items-control">
+              <label for="rowCount">Item</label>
+              <input type="number" id="rowCount" min="1" max="99" step="1" value="1" aria-label="Number of items to add">
+              <button class="add-row-btn" id="addRowBtn">+ Add</button>
+            </div>
             <button class="add-row-btn" id="addColumnBtn">+ Add column</button>
           </div>
 

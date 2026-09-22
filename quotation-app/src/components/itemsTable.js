@@ -2,6 +2,7 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
   const optionalColumns = document.getElementById('optionalColumns');
   const headerRow = optionalColumns.parentElement;
   const addColumnBtn = document.getElementById('addColumnBtn');
+  const rowCountInput = document.getElementById('rowCount');
   let columnId = 0;
 
   function updateColumnButton() {
@@ -17,6 +18,8 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       <option value="lot">lot</option>
       <option value="pcs">pcs</option>
       <option value="months">months</option>
+      <option value="days">days</option>
+      <option value="pax">pax</option>
       <option value="other">Other</option>
     </select><input type="text" class="other-unit-input" placeholder="Unit" aria-label="Other unit">`;
   }
@@ -34,9 +37,12 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       <td class="row-actions"><button class="remove-row" title="Remove item">✕</button></td>
     `;
     itemsBody.appendChild(row);
-    row.querySelector('.unit-input').value = data.unit || 'none';
-    row.querySelector('.other-unit-input').value = data.otherUnit || '';
-    row.querySelector('.other-unit-input').classList.toggle('visible', data.unit === 'other');
+    const unitInput = row.querySelector('.unit-input');
+    const otherUnitInput = row.querySelector('.other-unit-input');
+    unitInput.value = data.unit || 'none';
+    otherUnitInput.value = data.otherUnit || '';
+    unitInput.classList.toggle('hidden', data.unit === 'other');
+    otherUnitInput.classList.toggle('visible', data.unit === 'other');
     row.querySelectorAll('.optional-cell input').forEach((field) => {
       field.value = data.optionalValues?.[field.dataset.columnId] || '';
     });
@@ -54,6 +60,16 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
   function resizeDescription(field) {
     field.style.height = 'auto';
     field.style.height = `${field.scrollHeight}px`;
+  }
+
+  function focusNextRow(row) {
+    const nextRow = row.nextElementSibling;
+    if (nextRow) {
+      nextRow.querySelector('.item-no-input').focus();
+      return;
+    }
+    addRow();
+    itemsBody.lastElementChild.querySelector('.item-no-input').focus();
   }
 
   function addColumn(name = 'New column') {
@@ -88,9 +104,16 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
   });
   itemsBody.addEventListener('change', (event) => {
     if (event.target.classList.contains('unit-input')) {
+      event.target.classList.toggle('hidden', event.target.value === 'other');
       event.target.nextElementSibling.classList.toggle('visible', event.target.value === 'other');
     }
     onChange();
+  });
+  itemsBody.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && event.target.classList.contains('price-input')) {
+      event.preventDefault();
+      focusNextRow(event.target.closest('tr'));
+    }
   });
   itemsBody.addEventListener('click', (event) => {
     if (event.target.classList.contains('remove-row')) {
@@ -106,7 +129,17 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       onChange();
     }
   });
-  addRowBtn.addEventListener('click', () => addRow());
+  addRowBtn.addEventListener('click', () => {
+    const count = Math.min(99, Math.max(1, parseInt(rowCountInput.value, 10) || 1));
+    for (let index = 0; index < count; index += 1) addRow();
+    rowCountInput.value = '1';
+  });
+  rowCountInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      addRowBtn.click();
+    }
+  });
   addColumnBtn.addEventListener('click', addColumn);
   headerRow.addEventListener('click', (event) => {
     if (event.target.classList.contains('remove-column')) removeColumn(event.target.closest('.optional-column'));
