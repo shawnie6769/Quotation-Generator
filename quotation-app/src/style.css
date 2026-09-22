@@ -132,6 +132,21 @@ th.row-actions-header{width:34px;}
 input.qty-input, input.price-input{text-align:right;}
 input.price-input{min-width:82px;}
 .desc-input{display:block;width:100%;min-height:29px;height:29px;resize:vertical;line-height:1.35;overflow:hidden;overflow-wrap:anywhere;}
+.description-editor{display:flex;align-items:flex-start;gap:5px;}
+.description-editor .desc-input{flex:1;}
+.suggest-wording-btn{flex:0 0 auto;margin-top:3px;padding:4px 5px;border:1px solid #D7C6B9;border-radius:4px;background:#FBF4EF;color:var(--clay-dark);font:700 10px/1 'Inter',sans-serif;cursor:pointer;opacity:0;transition:opacity .15s ease,background .15s ease,color .15s ease;}
+tr:hover .suggest-wording-btn, .suggest-wording-btn:focus-visible{opacity:1;}
+.suggest-wording-btn:hover,.suggest-wording-btn:focus-visible{background:#F3E3D9;outline:none;}
+.suggest-wording-btn:disabled{opacity:1;cursor:wait;}
+.suggestion-dialog{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(11,42,63,.45);}
+.suggestion-panel{width:min(100%,460px);padding:24px;background:var(--white);border-top:5px solid var(--clay);border-radius:7px;box-shadow:0 18px 45px rgba(11,42,63,.24);}
+.suggestion-kicker{margin:0;color:var(--clay-dark);font-size:11px;font-weight:700;letter-spacing:.14em;}
+.suggestion-panel h2{margin:10px 0 18px;color:var(--navy);font-size:27px;line-height:1;}
+.suggestion-label{margin:0 0 6px;color:var(--slate);font-size:12px;font-weight:600;}
+.suggestion-value{min-height:52px;margin:0;padding:12px;border:1px solid var(--line);border-radius:5px;color:var(--ink);font-size:15px;line-height:1.5;}
+.suggestion-error{min-height:18px;margin:10px 0 0;color:var(--danger);font-size:13px;}
+.suggestion-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;}
+.suggestion-cancel{color:var(--navy);border-color:var(--navy);}
 .pdf-description-value{display:block;width:100%;min-height:29px;line-height:1.35;white-space:pre-wrap;overflow-wrap:anywhere;}
 .pdf-unit-value{display:block;min-height:29px;line-height:1.35;padding:4px 0;}
 .item-no-input{width:42px;text-align:center;}
@@ -167,14 +182,16 @@ input.price-input{min-width:82px;}
 .totals-line.vat span:first-child{display:flex;align-items:center;gap:2px;}
 #vatRate{width:28px;flex:0 0 28px;text-align:right;padding:2px 0;}
 .terms{margin-bottom:34px;}
-.terms label{display:block;font-size:12px;color:var(--slate);font-weight:600;margin-bottom:6px;}
+.terms-heading{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.terms label{display:block;font-size:12px;color:var(--slate);font-weight:600;margin:0;}
+.terms-suggest-btn{opacity:1;margin:0;}
 textarea#terms{width:100%;min-height:90px;resize:vertical;line-height:1.5;text-align:left;white-space:pre-wrap;word-spacing:normal;border:1px solid var(--line);border-radius:4px;padding:10px;}
 textarea#terms:focus{border-color:var(--clay);}
 .signature{margin-top:10px;}
 .signature .name{font-weight:700;font-size:15px;}
 .signature .title{font-size:13px;color:var(--slate);}
 .sheet.printing input, .sheet.printing textarea{border:none !important;pointer-events:none;}
-.sheet.printing .row-actions, .sheet.printing .add-row-btn, .sheet.printing .remove-column, .sheet.printing .header-add-column{display:none !important;}
+.sheet.printing .row-actions, .sheet.printing .add-row-btn, .sheet.printing .remove-column, .sheet.printing .header-add-column, .sheet.printing .terms-suggest-btn{display:none !important;}
 .sheet.printing input::placeholder, .sheet.printing textarea::placeholder{color:transparent;}
 .pdf-staging{position:fixed;left:-100000px;top:0;width:820px;z-index:-1;}
 .pdf-section{width:820px;box-shadow:none;border-radius:0;overflow:visible;}
@@ -213,6 +230,7 @@ textarea#terms:focus{border-color:var(--clay);}
   .add-items-control{min-height:42px;}
   #rowCount{min-height:42px;font-size:16px;}
   .toggle-row-total{opacity:1;}
+  .suggest-wording-btn{opacity:1;}
   .totals{margin-bottom:22px;}
   .totals-box{width:100%;max-width:none;margin:0;}
   .totals-line{min-height:40px;padding:9px 0;font-size:14px;line-height:1.35;}

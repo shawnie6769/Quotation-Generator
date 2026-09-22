@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Test: suggest-wording endpoint</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 500px; margin: 40px auto; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 8px; }
+    button { padding: 8px 16px; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 12px; white-space: pre-wrap; word-break: break-word; }
+    label { font-size: 13px; color: #555; }
+  </style>
+</head>
+<body>
+  <h3>Test /api/suggest-wording</h3>
+
+  <label for="endpoint">Endpoint URL</label>
+  <input id="endpoint" value="http://localhost:3000/api/suggest-wording" />
+
+  <label for="text">Item description</label>
+  <input id="text" value="install granite counter top" />
+
+  <button onclick="test()">Test</button>
+
+  <pre id="result">Result will appear here.</pre>
+
+  <script>
+    async function test() {
+      const endpoint = document.getElementById("endpoint").value;
+      const text = document.getElementById("text").value;
+      const resultEl = document.getElementById("result");
+      resultEl.textContent = "Sending...";
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          data = { error: "Response was not valid JSON (check the endpoint URL/status below)" };
+        }
+
+        resultEl.textContent = "Status: " + res.status + "\n\n" + JSON.stringify(data, null, 2);
+      } catch (err) {
+        resultEl.textContent =
+          "Request failed before getting a response.\n" +
+          "This usually means: wrong URL, server not running, or CORS blocked.\n\n" +
+          "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -21,6 +21,12 @@ const appShell = document.getElementById('appShell');
 const landingStatus = document.getElementById('landingStatus');
 const quotationFileInput = document.getElementById('quotationFileInput');
 let editorReady = false;
+const suggestionDialog = document.getElementById('suggestionDialog');
+const suggestionValue = document.getElementById('suggestionValue');
+const suggestionError = document.getElementById('suggestionError');
+const suggestionApplyBtn = document.getElementById('suggestionApplyBtn');
+let suggestionField = null;
+const suggestionApiUrl = import.meta.env.VITE_SUGGESTION_API_URL || '/api/suggest-wording';
 
 function normalizeHumanText(value) {
   return value.trim().replace(/\s+/g, ' ').split(' ').map((word) => {
@@ -33,9 +39,64 @@ function persistDraft() {
   if (editorReady) saveDraft(createQuotationFile(itemsBody));
 }
 
+function closeSuggestion() {
+  suggestionDialog.hidden = true;
+  suggestionField = null;
+  suggestionApplyBtn.disabled = false;
+}
+
+function formatNumberedTerms(value) {
+  return value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line, index) => {
+    const withoutNumber = line.replace(/^\d+[.)]\s*/, '');
+    return `${index + 1}. ${withoutNumber}`;
+  }).join('\n');
+}
+
+async function requestSuggestion(field, button, emptyMessage, kind = 'item') {
+  const text = field.value.trim();
+  if (!text) {
+    statusMsg.textContent = 'Enter an item description first.';
+    if (emptyMessage) statusMsg.textContent = emptyMessage;
+    field.focus();
+    return;
+  }
+
+  suggestionField = field;
+  suggestionValue.textContent = 'Improving the wording...';
+  suggestionError.textContent = '';
+  suggestionApplyBtn.disabled = true;
+  suggestionDialog.hidden = false;
+  button.disabled = true;
+  button.textContent = '...';
+  try {
+    const response = await fetch(suggestionApiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, kind })
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || 'The wording suggestion could not be generated.');
+    suggestionValue.textContent = result.suggestion;
+    suggestionError.textContent = '';
+    suggestionApplyBtn.disabled = false;
+    suggestionApplyBtn.focus();
+  } catch (error) {
+    suggestionValue.textContent = '';
+    suggestionError.textContent = error.message || 'The wording suggestion could not be generated.';
+  } finally {
+    button.disabled = false;
+    button.textContent = 'AI';
+  }
+}
+
+function suggestWording(row) {
+  requestSuggestion(row.querySelector('.desc-input'), row.querySelector('.suggest-wording-btn'), 'Enter an item description first.');
+}
+
 const itemTable = initializeItemsTable({
   itemsBody,
   addRowBtn: document.getElementById('addRowBtn'),
+  onSuggest: suggestWording,
   onChange: () => {
     recalculateTotals(itemsBody);
     persistDraft();
@@ -134,6 +195,24 @@ document.getElementById('saveQuotationBtn').addEventListener('click', () => {
   downloadQuotationFile(quotation);
   statusMsg.textContent = 'Quotation file saved.';
   setTimeout(() => { statusMsg.textContent = ''; }, 3000);
+});
+document.getElementById('termsSuggestBtn').addEventListener('click', (event) => {
+  requestSuggestion(document.getElementById('terms'), event.currentTarget, 'Enter terms and conditions first.', 'terms');
+});
+document.getElementById('suggestionCancelBtn').addEventListener('click', closeSuggestion);
+suggestionApplyBtn.addEventListener('click', () => {
+  if (!suggestionField) return;
+  const field = suggestionField;
+  field.value = field.id === 'terms' ? formatNumberedTerms(suggestionValue.textContent) : suggestionValue.textContent;
+  field.dispatchEvent(new Event('input', { bubbles: true }));
+  field.focus();
+  closeSuggestion();
+});
+suggestionDialog.addEventListener('click', (event) => {
+  if (event.target === suggestionDialog) closeSuggestion();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !suggestionDialog.hidden) closeSuggestion();
 });
 
 document.querySelectorAll('#editor input, #editor textarea, #editor select').forEach((field) => {

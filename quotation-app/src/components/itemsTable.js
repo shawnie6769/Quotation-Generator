@@ -1,4 +1,4 @@
-export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
+export function initializeItemsTable({ itemsBody, addRowBtn, onChange, onSuggest }) {
   const optionalColumns = document.getElementById('optionalColumns');
   const headerRow = optionalColumns.parentElement;
   const addColumnBtn = document.getElementById('addColumnBtn');
@@ -28,7 +28,7 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td class="item-no"><input type="text" class="item-no-input" value="${data.itemNo || ''}" aria-label="Item number"></td>
-      <td class="description-cell"><textarea class="desc-input" rows="1" placeholder="Item description">${description || ''}</textarea></td>
+      <td class="description-cell"><div class="description-editor"><textarea class="desc-input" rows="1" placeholder="Item description">${description || ''}</textarea><button type="button" class="suggest-wording-btn" title="Suggest professional wording" aria-label="Suggest professional wording">AI</button></div></td>
       <td class="qty"><input type="number" class="qty-input" min="0" step="1" value="${quantity ?? ''}"></td>
       <td class="unit">${unitField()}</td>
       <td class="price"><input type="number" class="price-input" min="0" step="0.01" value="${price ?? ''}"></td>
@@ -127,6 +127,9 @@ export function initializeItemsTable({ itemsBody, addRowBtn, onChange }) {
       event.target.setAttribute('aria-label', excluded ? 'Include item in quotation total' : 'Exclude item from quotation total');
       event.target.title = excluded ? 'Include item in quotation total' : 'Exclude item from quotation total';
       onChange();
+    }
+    if (event.target.classList.contains('suggest-wording-btn')) {
+      onSuggest(event.target.closest('tr'));
     }
   });
   addRowBtn.addEventListener('click', () => {

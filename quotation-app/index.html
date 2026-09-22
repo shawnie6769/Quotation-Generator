@@ -101,7 +101,7 @@
           </div>
 
           <div class="terms">
-            <label>Terms &amp; Conditions</label>
+            <div class="terms-heading"><label for="terms">Terms &amp; Conditions</label><button type="button" class="suggest-wording-btn terms-suggest-btn" id="termsSuggestBtn" title="Improve terms and conditions wording" aria-label="Improve terms and conditions wording">AI</button></div>
             <textarea id="terms">1. This quotation is valid for 30 days from the date above.
 2. 50% down payment is required before work commences.
 3. Prices are subject to change without prior notice after validity period.</textarea>
@@ -116,6 +116,20 @@
       <div class="status-msg" id="statusMsg"></div>
     </div>
   </main>
+  </div>
+
+  <div class="suggestion-dialog" id="suggestionDialog" hidden role="dialog" aria-modal="true" aria-labelledby="suggestionTitle">
+    <div class="suggestion-panel">
+      <p class="suggestion-kicker">AI SUGGESTION</p>
+      <h2 id="suggestionTitle">Improve this wording?</h2>
+      <p class="suggestion-label">Suggested description</p>
+      <p class="suggestion-value" id="suggestionValue"></p>
+      <p class="suggestion-error" id="suggestionError" role="alert"></p>
+      <div class="suggestion-actions">
+        <button class="btn btn-ghost suggestion-cancel" id="suggestionCancelBtn" type="button">Keep original</button>
+        <button class="btn btn-primary" id="suggestionApplyBtn" type="button">Use suggestion</button>
+      </div>
+    </div>
   </div>
 
   <div class="tutorial" id="tutorial" hidden aria-live="polite">
